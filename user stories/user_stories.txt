@@ -1,0 +1,10 @@
+1.Als Kunde möchte ich immer wissen, wie viele Parkplätze noch frei sind, damit ich einen Richtwert habe und ggf. später wiederkommen kann.
+2.Als Manager möchte ich eine voll automatisierte Anzeige der Vorgänge, damit ich mir nicht alle Einzelheiten merken muss.
+3.Als Kunde möchte ich an einem Automaten zahlen, der auch EC- und Kreditkarten nimmt.
+4.Als Kunde möchte ich eine ungefähre Angabe haben, in welchem Bereich des Parkhauses noch die meisten freien Plätze sind, um mich schnell orientieren zu können.
+5.Als Statistiker möchte ich, dass die Parkzeiten der Gäste anonym gespeichert werden, um das Parkverhalten analysieren zu können.
+6.Als Manager möchte ich die Preise unkompliziert anpassen können, um auf Stoßzeiten reagieren und so den Gewinn maximieren zu können.
+7.Als Betreiber möchte ich auf menschliche Mitarbeiter möglichst verzichten, um Kosten zu sparen.
+8.Als täglicher Pendler möchte ich einen Parkplatz reservieren können, um mir keine Sorgen machen zu müssen, möglicherweise keinen mehr zu bekommen.
+9.Als Sicherheitsbeauftragter möchte ich, dass ein kontrollierter Notknopf in Ausnahmefällen die Schranke öffnen lassen kann, auch wenn nicht gezahlt wurde. 
+10.Als Kunde möchte ich eine Schranke, die sich sofort bei Bezahlung öffnet, damit keine Zeit verschwendet wird und die internen Vorgänge des Parkhauses mich nicht beeinträchtigen.
