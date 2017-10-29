@@ -1,4 +1,4 @@
-1.Als Kunde möchte ich immer wissen, wie viele Parkplätze noch frei sind, damit ich einen Richtwert habe und ggf. später wiederkommen kann.
+﻿1.Als Kunde möchte ich immer wissen, wie viele Parkplätze noch frei sind, damit ich einen Richtwert habe und ggf. später wiederkommen kann.
 2.Als Manager möchte ich eine voll automatisierte Anzeige der Vorgänge, damit ich mir nicht alle Einzelheiten merken muss.
 3.Als Kunde möchte ich an einem Automaten zahlen, der auch EC- und Kreditkarten nimmt.
 4.Als Kunde möchte ich eine ungefähre Angabe haben, in welchem Bereich des Parkhauses noch die meisten freien Plätze sind, um mich schnell orientieren zu können.
