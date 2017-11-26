@@ -1,0 +1,75 @@
+JUnit-TestCase:
+
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+
+public class PersonTest {
+
+	Person p1, p2;
+
+	@Before
+	public void setUp() throws Exception {
+		p1 = new Person("Frau Dr. Eva Müller, Hochschule Bonn-Rhein-Sieg, Fachbereich Informatik, Grantham-Allee 20, 53757 Sankt Augustin");
+		p2 = new Person("Herr Prof. Ulrich Witt, HBRS, FB02, Grantham-Allee 20, 53757 Sankt Augustin");
+	}
+
+	@Test
+	public void test() {
+		assertEquals("Frau", p1.Anrede);
+		assertEquals("Dr.", p1.Titel);
+		assertEquals("Eva", p1.Vorname);
+		assertEquals("Müller", p1.Nachname);
+		assertEquals("Hochschule Bonn-Rhein-Sieg", p1.Organisation);
+		assertEquals("Fachbereich Informatik", p1.Abteilung);
+		assertEquals("Grantham-Allee", p1.Straße);
+		assertEquals("20", p1.Hausnummer);
+		assertEquals("53757", p1.PLZ);
+		assertEquals("Sankt Augustin", p1.Stadt);
+	}
+	public void test2() {
+		assertEquals("Herr", p2.Anrede);
+		assertEquals("Prof.", p2.Titel);
+		assertEquals("Ulrich", p2.Vorname);
+		assertEquals("Witt", p2.Nachname);
+		assertEquals("HBRS", p2.Organisation);
+		assertEquals("FB02", p2.Abteilung);
+		assertEquals("Grantham-Allee", p2.Straße);
+		assertEquals("20", p2.Hausnummer);
+		assertEquals("53757", p2.PLZ);
+		assertEquals("Sankt Augustin", p2.Stadt);
+	}
+}
+
+Implementierende Klasse:
+
+public class Person {
+
+	public String Anrede;
+	public String Titel;
+	public String Vorname;
+	public String Nachname;
+	public String Organisation;
+	public String Abteilung;
+	public String Straße;
+	public String Hausnummer;
+	public String PLZ;
+	public String Stadt;
+
+	public Person(String eingabe) {
+		String[] tmp = eingabe.split(",");
+		Organisation = tmp[1].trim();
+		Abteilung = tmp[2].trim();
+		String[] tmp2 = tmp[0].split("\\s");
+		Anrede = tmp2[0].trim();	
+		Titel = tmp2[1].trim();
+		Vorname = tmp2[2].trim();
+		Nachname = tmp2[3].trim();
+		String[] tmp3 = tmp[3].split("(?<=\\D)(?=\\d)");
+		Straße = tmp3[0].trim();
+		Hausnummer = tmp3[1].trim();
+		String[] tmp4 = tmp[4].split("(?<=\\d)(?=\\D)");
+		PLZ = tmp4[0].trim();
+		Stadt = tmp4[1].trim();
+	}
+}
