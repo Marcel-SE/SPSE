@@ -1,0 +1,23 @@
+@startuml
+title __Zustandsdiagramm fuer Buchung in CIS__ Partnerarbeit: ppuet12s, mveste2s, dbloke2s
+[*] -> NeueBuchung
+NeueBuchung: entry / einloggen
+NeueBuchung --> [*] : [login failed]
+NeueBuchung --> KonferenzAuswaehlen :[Login erfolgreich]
+KonferenzAuswaehlen: do/ Liste aller Konferenzen zeigen
+KonferenzAuswaehlen --> NationaleKonferenz :[Nationale Konferenz buchen]
+NationaleKonferenz : do/ Liste aller Nationalen Konferenzen zeigen
+NationaleKonferenz --> KonferenzBezahlen :[Konferenz Ausgewaehlt]
+KonferenzBezahlen --> EasyCard :[mit Kredidkarte bezahlen]
+KonferenzBezahlen --> HypoBank :[mit Lastschrift bezahlen]
+HypoBank --> [*] :[Bezahlung abgeschlossen]
+EasyCard -->[*]:[Bezahlung abgeschlossen]
+
+KonferenzAuswaehlen --> InternationaleKonferenz :[Internationale Konferenz buchen]
+InternationaleKonferenz : do/ Liste aller Internationelen Konferenzen zeigen
+InternationaleKonferenz --> CheckVisa :[Konferenz Ausgewaehlt]
+CheckVisa :do/ Visum ueberpruefen
+CheckVisa -> KonferenzBezahlen: [Visum in Ordnung]
+CheckVisa --> [*] : [Visum nicht in Ordnung] 
+
+@enduml

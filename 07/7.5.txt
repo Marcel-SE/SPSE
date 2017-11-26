@@ -1,0 +1,19 @@
+@startuml
+title __Zustandsdiagramm fuer diese Digitaluhr__ Partnerarbeit : mveste2s,dbloke2s,ppuet12s
+[*] --> Running
+Running --> [*] : clear()
+Running : entry / beep()
+Running : do / showTime()
+Running -> Stunde : set()
+Stunde : do / zeigeStunde()
+Stunde --> [*] : clear()
+Minute --> [*] : clear()
+Minute -> Minute : inc / m := (m+1) mod 60
+Minute : do / zeigeMinute()
+Stunde -down-> Minute : set()
+Stunde ---> Stunde : inc / h := (h + 1) mod 24
+Sekunde --> [*] : clear()
+Sekunde -> Sekunde : inc / s := (s+1) mod 60
+Minute -down-> Sekunde : set()
+Sekunde : do / zeigeSekunde()
+@enduml

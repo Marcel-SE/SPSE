@@ -1,0 +1,89 @@
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+/**
+ * @author ppet12s,mveste2s,dbloke2s
+ */
+public class ClockTest {
+
+	
+	DigitalClock c;
+	
+	@Before
+	public void setUp() {
+		c = new DigitalClock();
+	}
+	
+	@Test
+	public void testIncHours() {
+		c.set();
+		c.inc();
+		assertSame(1, c.getHours());
+	}
+	
+	@Test
+	public void testIncMinutes(){
+		c.set();
+		c.set();
+		c.inc();
+		assertSame(1,c.getMinutes());
+		c.getMinutes();
+	}
+	
+	@Test
+	public void testIncSeconds(){
+		c.set();
+		c.set();
+		c.set();
+		c.inc();
+		assertSame(1, c.getSeconds());
+	}
+	
+	@Test
+	public void testIncInShowTime(){
+		c.set();
+		c.inc();
+		assertSame(0, 0);
+	}
+	
+	@Test
+	public void testHoursOver24(){
+		c.set();
+		for(int i=0;i<25;++i){
+			c.inc();
+		}
+		assertSame(1, c.getHours());
+	}
+	
+	@Test
+	public void testSecondsOver60(){
+		c.set();
+		c.set();
+		c.set();
+		for(int i=0;i<61;++i){
+			c.inc();
+		}
+		assertSame(1, c.getSeconds());
+	}
+	
+	@Test
+	public void testMinutesOver60(){
+		c.set();
+		c.set();
+		for(int i=0;i<61;++i){
+			c.inc();
+		}
+		assertSame(1, c.getMinutes());
+	}
+	
+	@Test
+	public void testClear(){
+		c.set();
+		c.inc();
+		c.clear();
+		assertSame(0, c.getHours());
+	}
+
+}

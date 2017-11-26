@@ -1,0 +1,93 @@
+
+/**
+ * @author ppuet12s,mveste2s,dbloke2s
+ */
+public class DigitalClock{
+	
+	
+	private class State{
+		DigitalClock clock;
+		State next;
+		
+		public State(DigitalClock clock){
+			this.clock = clock;
+		}
+		
+		public void inc(){}
+		
+		public void setNext(State next){
+			this.next = next;
+		}
+		
+	}
+	
+	int seconds, minutes, hours;
+	
+	State state;
+	
+	private State StateShowTime = new State(this){
+	};
+	
+	private State StateSetHours = new State(this){
+		public void inc(){
+			super.clock.hours += 1;
+			super.clock.hours %= 24;
+		}
+		
+	};
+	
+	private State StateSetMinutes = new State(this){
+		public void inc(){
+			super.clock.minutes += 1;
+			super.clock.minutes %= 60;
+		}
+		
+	};
+	
+	private State StateSetSeconds = new State(this){
+		public void inc(){
+			super.clock.seconds += 1;
+			super.clock.seconds %= 60;
+		}
+		
+	};
+	
+	public DigitalClock(){
+		
+		state = StateShowTime;
+		state.setNext(StateSetHours);
+		state.next.setNext(StateSetMinutes);
+		state.next.next.setNext(StateSetSeconds);
+		state.next.next.next.setNext(state);
+	}
+	
+	public int getMinutes(){
+		return minutes;
+	}
+	
+	public int getHours(){
+		return hours;
+	}
+	
+	public int getSeconds(){
+		return seconds;
+	}
+	
+	public String toString(){
+		return hours + ":" + minutes + ":" + seconds;
+	}
+	
+	public void set(){
+		this.state = this.state.next;
+	}
+	
+	public void inc(){
+		this.state.inc();
+	}
+	
+	public void clear(){
+		hours = 0;
+		minutes = 0;
+		seconds = 0;
+	}
+}
