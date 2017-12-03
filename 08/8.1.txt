@@ -1,0 +1,131 @@
+@startuml
+title __Erste Normalform (1ONF)__ Partnerarbeit: mveste2s,ppuet12s,dbloke2s
+skinparam classAttributeIconSize 0
+class ParkAuto {
+~autoNr: int
+~parkBeginn: long
+~parkEnde: long
+~parkDauer: int
+~parkGebuehr: int
+~bezahlArt: int
+
++ParkAuto()
+
+}
+class Abo{
+~aboArt: int
+~aboBeginn: long
+~aboGebuehr: long
+~aboKunde: String
+~aboKundenAdresse: String
+~aboFirma: String
+~aboFirmenAdresse: String
+
++Abo()
+}
+class Auto{
+~KfzKennzeichen: String
+
++Auto()
+}
+
+ParkAuto -- Abo
+ParkAuto -- Auto
+@enduml
+
+--------------------------------------------
+
+@startuml
+title __Zweite Normalform (2ONF)__ Partnerarbeit: mveste2s,ppuet12s,dbloke2s
+skinparam classAttributeIconSize 0
+class ParkAuto {
+~autoNr: int
+~parkBeginn: long
+~parkEnde: long
+~parkDauer: int
+~parkGebuehr: int
+
++ParkAuto()
+
+}
+class Abo{
+~aboArt: int
+~aboBeginn: long
+~aboGebuehr: long
+~aboKunde: String
+~aboKundenAdresse: String
+~aboFirma: String
+~aboFirmenAdresse: String
+
++Abo()
+}
+class Auto{
+~KfzKennzeichen: String
+
++Auto()
+}
+
+class Bezahlen{
+~bezahlArt: int
+
++Bezahlen()
+}
+ParkAuto -- Abo
+ParkAuto -- Auto
+Bezahlen -- Abo
+@enduml
+
+----------------------------------------
+
+@startuml
+title __Dritte Normalform (3ONF)__ Partnerarbeit: mveste2s,ppuet12s,dbloke2s
+skinparam classAttributeIconSize 0
+class ParkAuto {
+~autoNr: int
+~parkBeginn: long
+~parkEnde: long
+~parkDauer: int
+~parkGebuehr: int
+
++ParkAuto()
+
+}
+class Abo{
+~aboArt: int
+~aboBeginn: long
+~aboGebuehr: long
+
++Abo()
+}
+class Auto{
+~KfzKennzeichen: String
+
++Auto()
+}
+
+class Bezahlen{
+~bezahlArt: int
+
++Bezahlen()
+}
+
+class Kunde{
+~aboKunde: String
+~aboKundenAdresse: String
+
++Kunde()
+}
+
+Class Firma{
+
+~aboFirma: String
+~aboFirmenAdresse: String
+
++Firma()
+}
+ParkAuto -- Abo
+ParkAuto -- Auto
+Bezahlen -- Abo
+Abo -- Kunde
+Abo -- Firma
+@enduml

@@ -1,0 +1,11 @@
+List<Auto> autos = Arrays.asList(a1,a2,a3,a4); autos.stream().filter(auto -> (auto.hatTurbo() == true && auto.kunde().istFirma() == true)).map(auto -> auto.parkdauer()* ParkHaus.gebühr()).reduce(0, (a,b) -> a + b);
+
+
+
+
+-----------------------------------------------
+
+
+
+
+List<Auto> autos = Arrays.asList(a1,a2,a3,a4); autos.stream().filter(auto ->(auto.parkdauer() > 1440) && auto.kunde().istFirma()).map(auto -> auto.kunde()).collect(Collectors.toList());
