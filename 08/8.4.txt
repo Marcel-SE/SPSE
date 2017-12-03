@@ -1,0 +1,27 @@
+public int sumKurse(){
+	return kurse.stream()
+    		.mapToInt(kurs -> kurs.gebühren)
+    		.sum();
+}
+
+public int sumStudenten() {
+	return studenten.stream()
+		.filter(student -> student.istBerufstätig)
+		.mapToInt(student -> { return student.kurse.stream()
+			.mapToInt(kurs -> kurs.gebühren)
+			.sum(); })
+		.sum();
+}
+
+public double avg() {
+	long size = kurse
+		.stream()
+		.filter(kurs -> kurs.hatZertifikat)
+		.filter(kurs -> kurs.ECTS > 5)
+		.count();
+    	return kurse.stream()
+    		.filter(kurs -> kurs.hatZertifikat)
+    		.filter(kurs -> kurs.ECTS > 5)
+    		.mapToDouble(kurs -> kurs.gebühren)
+    		.reduce(0,(sum,x)->sum+x/size);
+}
