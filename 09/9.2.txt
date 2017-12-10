@@ -1,0 +1,135 @@
+JSONTest:
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class JSONTest {
+
+	JSONObject json;
+	
+	@Before
+	public void setUp() throws Exception {
+		json = new JSONObject();
+		JSONObject o = new JSONObject();
+		json.add("Person",o);
+		o.add("Vorname", new JSONString("Hans-Peter"));
+		o.add("Nachname", new JSONString("Schmitt"));
+		o.add("Straße", new JSONString("Hauptstraße"));
+		o.add("Hausnummer", new JSONNumber(50));
+	}
+
+	@Test
+	public void test() {
+		assertEquals("{{\"Person\": {{\"Vorname\": \"Hans-Peter\", \"Nachname\": \"Schmitt\", \"Straße\": \"Hauptstraße\", \"Hausnummer\": \"50\", }, }", json.toString());
+	}
+
+}
+
+
+
+JSON:
+
+public interface JSONValue {
+	
+	public Object getValue();
+	public String toString();
+
+}
+public class JSONObject implements JSONValue {
+	
+	private java.util.List<String> key = new java.util.ArrayList<String>();
+	private java.util.List<JSONValue> value = new java.util.ArrayList<JSONValue>();
+	
+	public JSONObject() {
+		
+	}
+	public void add(String str, JSONValue jsv) {
+		key.add(str);
+		value.add(jsv);
+	}
+	@Override
+	public JSONObject getValue() {
+		return this;
+	}
+	@Override
+	public String toString() {
+		String s = "{";
+		s += toString(s);
+		s += "}";
+		return s;
+	}
+	public String toString(String s) {
+		int i = 0;
+		for(String k : key) {
+			s += ("\"" + k + "\": ");
+			s += (value.get(i).toString() + ", ");
+			i++;
+		}
+		return s;
+	}
+
+}
+public class JSONArray implements JSONValue {
+	
+	private java.util.List<JSONValue> array = new java.util.ArrayList<JSONValue>();
+
+	public JSONArray(JSONValue... jsv) {
+		for (JSONValue j : jsv) {
+			array.add(j);
+		}
+	}
+	public void add(JSONValue v) {
+		array.add(v);
+	}
+	@Override
+	public java.util.List<JSONValue> getValue() {
+		return array;
+	}
+	@Override
+	public String toString() {
+		String s = "[";
+		for(JSONValue j : array) {
+			s += j.toString();
+			s += ", ";
+		}
+		s += "]";
+		return s;
+	}
+
+}
+public class JSONNumber implements JSONValue {
+	
+	private int number;
+	
+	public JSONNumber(int v) {
+		 number = v;
+	}
+	@Override
+	public Integer getValue() {
+		return number;
+	}
+	@Override
+	public String toString() {
+		return("\"" + Integer.toString(number) + "\"");
+	}
+	
+}
+public class JSONString implements JSONValue {
+	
+	private String string;
+	
+	public JSONString(String str) {
+		string = str;
+	}
+	@Override
+	public String getValue() {
+		return string;
+	}
+	@Override
+	public String toString() {
+		return("\"" + string + "\"");
+	}
+
+}
