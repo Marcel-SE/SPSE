@@ -1,0 +1,25 @@
+@startuml
+Title Partnerarbeit: ppuet12s,mveste2s,dbloke2s
+skinparam classAttributeIconSize 0
+class Editor {
+-farbe:Farbe
+-zentimeter:int
++Editor(a:Altsystem)
++saveLinie( farbe: Farbe, zentimeter:int, a:Altsystem )
++getAbstand():int
+}
+class Altsystem {
++farbe:Farbe
++millimeter:int
++saveLinie( farbe: Farbe, millimeter: int )
++getAbstand():int
+}
+class Farbe{
+-farbe:String
++Farbe(farbe:String)
++getFarbe():String
+}
+Farbe -- Editor
+Farbe -- Altsystem
+Editor - Altsystem
+@enduml
