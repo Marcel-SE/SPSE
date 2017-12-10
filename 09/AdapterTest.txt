@@ -1,0 +1,77 @@
+//Partnerarbeit ppuet12s,mveste2s,dbloke2s
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class AdapterTester {
+	
+	Editor e;
+	Altsystem a;
+	
+	EditorObject eO;
+	
+	EditorFuncSta eFS;
+	
+	EditorFuncDyn eDS;
+	
+	@Before
+	public void setUp(){
+		e = new Editor();
+		a = new Altsystem();
+		eO = new EditorObject();
+		eFS = new EditorFuncSta((Farbe farbe, int zentimeter, Altsystem a) -> {a.saveLinie(farbe,zentimeter*10);});
+		eDS = new EditorFuncDyn();
+	}
+	@Test
+	public void testClassAdapter_1() {
+		e.saveLinie(new Farbe("blau"), 1,a);
+		assertSame(10, a.getAbstand());	
+		}
+	
+	@Test
+	public void testClassAdapter_2(){
+		e.saveLinie(new Farbe("rot"), 1, a);
+		assertEquals("rot", a.farbe.getFarbe());
+	}
+	
+	@Test
+	public void testObjectAdapter_1(){
+		eO.saveLinie(new Farbe("blau"), 1);
+		assertSame(10, eO.aO.getAbstand());
+	}
+	
+	@Test
+	public void testObjectAdapter_2(){
+		eO.saveLinie(new Farbe("rot"), 1);
+		assertEquals("rot", eO.aO.farbe.getFarbe());
+	}
+	
+	@Test
+	public void testFunctionalAdapterStatisch_1(){
+		eFS.saveLinie(new Farbe("blau"), 1, a);
+		assertSame(10, a.getAbstand());
+	}
+	
+	@Test
+	public void testFunctionalAdapterStatisch_2(){
+		eFS.saveLinie(new Farbe("rot"), 1, a);
+		assertEquals("rot", a.farbe.getFarbe());
+	}
+	
+	@Test
+	public void testFuntionalAdapterDynamisch_1(){
+		eDS.setAdapter((Farbe farbe, int zentimeter, Altsystem a) -> {a.saveLinie(farbe,zentimeter*10);});
+		eDS.saveLinie(new Farbe("blau"), 1, a);
+		assertSame(10, a.getAbstand());
+	}
+	
+	@Test
+	public void testFunctionalAdapterDynamisch_2(){
+		eDS.setAdapter((Farbe farbe, int zentimeter, Altsystem a) -> {a.saveLinie(farbe,zentimeter*10);});
+		eDS.saveLinie(new Farbe("rot"), 1, a);
+		assertEquals("rot", a.farbe.getFarbe());
+	}
+
+}

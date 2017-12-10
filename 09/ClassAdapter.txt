@@ -1,0 +1,70 @@
+//Partnerarbeit ppuet12s,mveste2s,dbloke2s
+public class Editor{
+	
+	private ServiceIF service;
+	private int zentimeter;
+	
+	public Editor(){
+		service = new ClassAdapter();
+	}
+	
+	public void saveLinie(Farbe farbe,int zentimeter,Altsystem a){
+		this.zentimeter = zentimeter;
+		service.saveLinie(farbe,zentimeter,a);
+	}
+	
+	public int getAbstand(){
+		return zentimeter;
+	}
+	
+}
+
+public class Altsystem {
+	
+	 public Farbe farbe;
+	 public int millimeter;
+	
+	public void saveLinie(Farbe farbe,int millimeter){
+		this.farbe = farbe;
+		this.millimeter = millimeter;
+	}
+	
+	public int getAbstand(){
+		return millimeter;
+	}
+}
+
+public class Farbe {
+
+	private String farbe;
+	
+	public Farbe(String farbe){
+		this.farbe = farbe;
+	}
+	
+	public String getFarbe(){
+		return farbe;
+	}
+	
+}
+
+public interface ServiceIF {
+
+	public void saveLinie(Farbe farbe,int zentimeter,Altsystem a);
+	public int getAbstand();
+}
+
+public class ClassAdapter extends Altsystem implements ServiceIF {
+
+	
+	@Override
+	public void saveLinie(Farbe farbe,int zentimeter,Altsystem a){
+		a.millimeter = zentimeter*10;
+		a.farbe = farbe;
+	}
+	
+	public int getAbstand(){
+		return super.getAbstand();
+	}
+	
+}

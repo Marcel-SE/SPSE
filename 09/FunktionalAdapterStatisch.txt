@@ -1,0 +1,58 @@
+//Partnerarbeit: ppuet12s,mveste2s,dbloke2s
+public class EditorFuncSta{
+	
+	private int zentimeter;
+	private FunktionalStatisch fs;
+	
+	public EditorFuncSta(FunktionalStatisch fs){
+		this.fs = fs;
+	}
+	
+
+	public void saveLinie(Farbe farbe,int zentimeter, Altsystem a){
+		this.zentimeter = zentimeter;
+		fs.saveLinie(farbe, zentimeter,a);
+	}
+	
+	public int getAbstand(){
+		return zentimeter;
+	}
+	
+}
+
+public class Altsystem {
+	
+	 public Farbe farbe;
+	 public int millimeter;
+	
+	public void saveLinie(Farbe farbe,int millimeter){
+		this.farbe = farbe;
+		this.millimeter = millimeter;
+	}
+	
+	public int getAbstand(){
+		return millimeter;
+	}
+}
+
+public class Farbe {
+
+	private String farbe;
+	
+	public Farbe(String farbe){
+		this.farbe = farbe;
+	}
+	
+	public String getFarbe(){
+		return farbe;
+	}
+	
+}
+
+
+@FunctionalInterface
+public interface FunktionalStatisch {
+
+		public void saveLinie(Farbe farbe, int zentimeter,Altsystem a);
+		
+}

@@ -1,0 +1,13 @@
+Frage: Wozu braucht man das Composite Pattern?
+
+Richtige Antwort: Das Composite Pattern sorgt dafür, dass Einzelelemente und Gruppen dieser Einzelelemente
+		  in einer verschachtelten Struktur gleichbehandelt werden können so dass aus der Sicht eines
+		  Clienten keine explizite Unterscheidung notwendig ist.
+
+Falsche Antwort 1: Das Composite Pattern sorft dafür, dass Einzelelemente und Gruppen dieser Einzelelemente
+		   so in einer verschachtelten Struktur gespeichert werden dass sie von einem Clienten explizit
+		   Unterschieden werden können, was es leichter macht operationen auf bestimmen Objekten auszuführen
+
+Falsche Antwort 2: Das Composite Pattern passt eine Schnittstelle einer Klasse so an, dass sie von einem Clienten, der eine
+		   andere Schnittstelle erwartet, benutzt werden kann, so dass Klassen zusammenarbeiten können, die normalerweise
+		   dazu nicht in der Lage wären.

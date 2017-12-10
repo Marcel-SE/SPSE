@@ -1,0 +1,87 @@
+//Partnerarbeit ppuet12s,mveste2s,dbloke2s
+public class EditorObject{
+	
+	private ServiceIFObject service;
+	private int zentimeter;
+	public AltsystemObject aO = new AltsystemObject();
+	
+	public EditorObject(){
+		service = new ObjectAdapter(aO);
+	}
+	
+	public void saveLinie(Farbe farbe,int zentimeter){
+		this.zentimeter = zentimeter;
+		service.saveLinie(farbe,zentimeter);
+	}
+	
+	public int getAbstand(){
+		return zentimeter;
+	}
+	
+}
+
+public class AltsystemObjectimplements AltIF {
+
+	public Farbe farbe;
+	public int millimeter;
+	
+	@Override
+	public void saveLinie(Farbe farbe, int millimeter) {
+		this.farbe = farbe;
+		this.millimeter = millimeter;
+	}
+
+	@Override
+	public int getAbstand() {
+		return millimeter;
+	}
+
+}
+
+public class Farbe {
+
+	private String farbe;
+	
+	public Farbe(String farbe){
+		this.farbe = farbe;
+	}
+	
+	public String getFarbe(){
+		return farbe;
+	}
+	
+}
+
+public interface ServiceIFObject {
+
+	public void saveLinie(Farbe farbe,int zentimeter);
+	public int getAbstand();
+}
+
+public interface AltIF {
+
+	public void saveLinie(Farbe farbe, int millimeter);
+	public int getAbstand();
+	
+}
+
+public class ObjectAdapter implements ServiceIFObject {
+
+	AltIF altIF;
+	
+	public  ObjectAdapter(AltIF altIF) {
+		this.altIF = altIF;
+	}
+	
+	@Override
+	public void saveLinie(Farbe farbe, int zentimeter) {
+		altIF.saveLinie(farbe, zentimeter*10);
+	}
+
+	@Override
+	public int getAbstand() {
+		return altIF.getAbstand();
+	}
+
+}
+
