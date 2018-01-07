@@ -1,0 +1,29 @@
+@startuml
+Title Partnerarbeit: ppuet12s,mveste2s,dbloke2s
+skinparam classAttributeIconSize 0
+class Blockchain{
++chain:Block[1..*]
+
++Blockchain()
++createGenesisBlock():Block {exception NoSuchAlgorithmException}
++getLatestBlock() :Block
++addBlock(newBlock: Block)
++isChainValid(): boolean
+}
+
+class Block{
++index: int
++timestamp: Timestamp
++daten: String
++previousHash: String
++hash: String
++md: messageDigest
+
++Block(daten: String) {exception NoSuchAlgorithmException}
++calculateHash(hash: byte[]): String
++toString(): String
++generateHashString(): String
+}
+
+Blockchain -- Block
+@enduml

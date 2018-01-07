@@ -1,0 +1,53 @@
+//Partnerarbeit: ppuet12s,mveste2s,dbloke2s
+
+import static org.junit.Assert.*;
+
+import java.security.NoSuchAlgorithmException;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class BlockchainTester {
+
+	Blockchain blockchain;
+	
+	@Before
+	public void setUp() throws NoSuchAlgorithmException {
+		blockchain = new Blockchain();
+		blockchain.addBlock(new Block("Test daten1"));
+		blockchain.addBlock(new Block("Test daten2"));
+	}
+	
+	@Test
+	public void testRichtigerIndex() throws NoSuchAlgorithmException {
+		blockchain.addBlock(new Block("test"));
+		assertSame(3, blockchain.getLatestBlock().index);
+	}
+	
+	@Test
+	public void testValidChain(){
+		assertTrue(blockchain.isChainValid());
+	}
+	
+	@Test
+	public void testValidChain_ChangedBlock(){
+		blockchain.chain.get(1).daten = "neue Test daten1";
+		assertFalse(blockchain.isChainValid());
+	}
+	
+	@Test
+	public void testValidChain_ChangedLastBlockNewHash(){
+		blockchain.getLatestBlock().daten = "neue Test daten Letzter Block";
+		blockchain.getLatestBlock().md.update(blockchain.getLatestBlock().generateHashString().getBytes());
+		blockchain.getLatestBlock().hash = blockchain.getLatestBlock().calculateHash(blockchain.getLatestBlock().md.digest());
+		assertTrue(blockchain.isChainValid());
+	}
+	
+	@Test
+	public void testValidChaine_ChagedBlocknewHash(){
+		blockchain.chain.get(1).daten = "neue Test daten1";
+		blockchain.chain.get(1).md.update(blockchain.chain.get(1).generateHashString().getBytes());
+		blockchain.chain.get(1).hash = blockchain.chain.get(1).calculateHash(blockchain.chain.get(1).md.digest());
+		assertFalse(blockchain.isChainValid());
+	}
+}

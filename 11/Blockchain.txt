@@ -1,0 +1,101 @@
+//Partnerarbeit: ppuet12s,mveste2s,dbloke2s
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+
+public class Block{
+	public int index = 0;
+	public Timestamp timestamp;
+	public String daten = "";
+	public String previousHash = "";
+	public String hash = "";
+	
+	public MessageDigest md = MessageDigest.getInstance("SHA-256");
+	
+	public Block(String daten) throws NoSuchAlgorithmException{
+		this.timestamp = new Timestamp(System.currentTimeMillis());
+		this.daten = daten;
+		
+		md.update(generateHashString().getBytes());
+		
+		this.hash = calculateHash(md.digest());
+	}
+	
+	
+	public String calculateHash(byte[] hash){
+		StringBuffer hexString = new StringBuffer();
+	    for (int i = 0; i < hash.length; i++) {
+	    String hex = Integer.toHexString(0xff & hash[i]);
+	    if(hex.length() == 1) hexString.append('0');
+	        hexString.append(hex);
+	    }
+	    return hexString.toString();
+	}
+	
+	public String toString(){
+		return "---------------\n"+"index:"+this.index+"\n"+"timestamp:"+this.timestamp.toString()+"\n"+"daten:"+this.daten+"\n"+"prev Hash:"+this.previousHash+"\n"+"Hash:"+this.hash+"\n--------------";
+	}
+	
+	public String generateHashString(){
+		return ""+this.index+""+this.timestamp.toString()+""+this.daten+""+this.previousHash+"";
+	}
+}
+
+
+
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+
+public class Blockchain {
+	
+	public ArrayList<Block> chain = new ArrayList<Block>();
+	
+	public Blockchain(){
+		try {
+			this.chain.add(this.createGenesisBlock());
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public Block createGenesisBlock() throws NoSuchAlgorithmException{
+		return new Block("Genesis block");
+	}
+	
+	public Block getLatestBlock(){
+		return this.chain.get(this.chain.size()-1);
+	}
+	
+	public void addBlock(Block newBlock){
+		newBlock.previousHash = this.getLatestBlock().hash;
+		newBlock.index = this.getLatestBlock().index + 1;
+		String tmp = newBlock.generateHashString();
+		newBlock.md.update(tmp.getBytes());
+		newBlock.hash = newBlock.calculateHash(newBlock.md.digest());
+		this.chain.add(newBlock);
+	}
+	
+	public boolean isChainValid(){
+		
+		for(int i=1;i<this.chain.size(); ++i){
+			
+			Block currentBlock = this.chain.get(i);
+			Block prevBlock = this.chain.get(i-1);
+
+			currentBlock.md.update(currentBlock.generateHashString().getBytes());
+			String tmp = currentBlock.calculateHash(currentBlock.md.digest());
+			if(!currentBlock.hash.equals(tmp)){
+				return false;
+			}
+			if(!currentBlock.previousHash.equals(prevBlock.hash)){
+				return false;
+			}
+			
+		}
+		
+		return true;
+	}
+	
+}
