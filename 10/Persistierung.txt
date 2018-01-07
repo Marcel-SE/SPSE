@@ -1,0 +1,56 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.persistence.FilePersistenceStrategy;
+import com.thoughtworks.xstream.persistence.PersistenceStrategy;
+import com.thoughtworks.xstream.persistence.XmlArrayList;
+
+public class Persistierung {
+	
+	XStream xstream = new XStream();
+	List zustandsliste = new ArrayList();
+	
+	public void toXML() {
+		FileOutputStream fs = null;
+		try {
+		    fs = new FileOutputStream("parkhauszustand.xml");
+		    xstream.toXML(zustandsliste, fs);
+		} catch(Exception e) {
+		    e.printStackTrace();
+		} finally {
+		    if(fs!=null) {
+		        try{ 
+		            fs.close();
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+		    }
+		}
+	}
+
+}
+
+public class ParkAuto {
+	
+	int Nummer;
+	long Einfahrtszeit;
+	Auto Auto;
+	
+	public ParkAuto(int n, long t, Auto a) {
+		Nummer = n;
+		Einfahrtszeit = t;
+		Auto = a;
+	}
+
+}
+
+public class Auto {
+	
+	String Kennzeichen;
+	
+	public Auto(String k) {
+		Kennzeichen = k;
+	}
+
+}

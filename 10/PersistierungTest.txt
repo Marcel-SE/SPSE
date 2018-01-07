@@ -1,0 +1,23 @@
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class PersistierungTest {
+	
+	Persistierung p;
+	
+	@SuppressWarnings("unchecked")
+	@Before
+	public void setUp() throws Exception {
+		p.zustandsliste.add(new ParkAuto(1, System.currentTimeMillis(), new Auto("BN-AB-123")));
+		p.zustandsliste.add(new ParkAuto(2, System.currentTimeMillis(), new Auto("BN-XY-67")));
+		p.zustandsliste.add(new ParkAuto(3, System.currentTimeMillis(), new Auto("BN-RS-800")));
+	}
+
+	@Test
+	public void test() {
+		p.toXML();
+	}
+
+}
