@@ -1,0 +1,29 @@
+//Partnerarbeit ppuet12s,mveste2s,dbloke2s
+
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+public class EigenerDekorierer extends FilterInputStream {
+
+	int data = 0;
+	
+	protected EigenerDekorierer(InputStream input) {
+		super(input);
+	}
+	
+	@Override
+	public int read() throws IOException{
+		data = super.read();
+		if(data == -1){
+			return -1;
+		}
+		if(data >= 97 && data <= 122){
+			return data - 32;
+		}
+		else{
+			return data;
+		}
+	}
+
+}

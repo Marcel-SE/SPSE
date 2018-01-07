@@ -1,0 +1,58 @@
+//Partnerarbeit ppuet12,mveste2s,dbloke2s
+
+import static org.junit.Assert.*;
+
+import java.io.*;
+
+import org.junit.Test;
+import org.junit.Before;
+
+public class DekoriererTester {
+
+	EigenerDekorierer ed;
+	File file = new File("C:\\Users\\Pascal\\Desktop\\test.txt");
+	InputStream in; 
+	PrintWriter out;
+	
+	@Before
+	public void setUp() throws FileNotFoundException{
+		in = new FileInputStream("C:\\Users\\Pascal\\Desktop\\test.txt");
+		out = new PrintWriter("C:\\Users\\Pascal\\Desktop\\test.txt");
+		ed = new EigenerDekorierer(in);
+		out.write("");
+	}
+	
+	@Test
+	public void testReadSmallChar() throws IOException {
+		out.write("a");
+		out.close();
+		assertSame((int)'A', ed.read());
+	}
+	
+	@Test
+	public void testReadBigChar() throws IOException{
+		out.write("B");
+		out.close();
+		assertSame((int)'B',ed.read());
+	}
+	
+	@Test
+	public void testReadSonderzeichen() throws IOException{
+		out.write("%");
+		out.close();
+		assertSame((int)'%',ed.read());
+	}
+	
+	@Test
+	public void testReadZeichenKette() throws IOException{
+		out.write("abcDe");
+		out.close();
+		String s = "";
+		char a = (char) ed.read();
+		while(a != -1){
+			s+=a;
+		}
+		assertEquals("ABCDE", s);
+	}
+
+}
