@@ -1,0 +1,59 @@
+Name: Strategie
+
+Ziel: Familien von Algorithmen definieren, kapseln und austauschbar machen. Strategie soll den Austausch des Algorithmus unabhängig von der Nutzung ermöglichen
+
+Motivation: Es gibt viele Algorithmen zur Darstellung von Objekten. Alle einzeln in den Objekten hart zu verdrahten bläht die Klassen dieser Objekte auf und belastet sie mit Algorithmen, die eigentlich zu einem anderen Thema gehören, der Repräsentation
+
+Anwendbarkeit: Verwenden Sie das Strategiemuster, falls
+
+sich viele zusammengehörige Klassen nur in ihrem Verhalten bezülgl. Eines Aspektes unterscheiden
+man Varianten des Verhaltens benötigt
+die Strategie so komplex sind, dass sie die Nutzerklassen mit fremden Datenstrukturen belasten würden.
+Viele Fallunterscheidungen auf verschiedene Strategien deuten
+
+
+Struktur:
+@startuml
+title Multiton Pattern
+skinparam classAttributeIconSize 0
+Interface Context{
+ContextInterface()
+}
+Interface Strategy{
+AlgorithmInterface()
+}
+Class ConcreteStrategyA{
+AlgorithmInterface()
+}
+Class ConcreteStrategyB{
+AlgorithmInterface()
+}
+
+Context o-> Strategy : strategy
+ConcreteStrategyA --^ Strategy
+ConcreteStrategyB --^ Strategy
+@enduml
+
+Teilnehmer: Strategie: Interface
+ConcreteStrateie: implementiert den Algorithmus
+Context: Nutzer der Strategie, hat eine Referenz auf ein Strategieobjekt
+
+Interaktionen: Context leitet Aufgaben, die in den Kompetenzbereich der Strategie fallen, an das Strategieobjekt weiter. Dieses implementiert den Algorithmus zusammen mit Context
+
+Konsequenzen: 
+1. Das Pattern erlaubt die systematische Implementierung einer Familie von Algorithmen in einer Klassenhierarchie.
+2. Delegation statt Vererbung: Strategie ist eine Alternative zu Unterklassenbildung, wenn man das Verhalten variieren will.
+3. Mit Strategien kann man Fallunterscheidungen in der Verhaltensprogrammierung eliminieren.
+4. Strategien bieten den Vorteil flexiblen Umschaltens zwischen unterschiedlichen Verhalten.
+5. Erhöte Anzahl von Objekten
+6. zusätzliche Methodenaufrufe
+Beispielcode:
+
+Siehe Aufgabe weiter unten.
+
+Bekannte Anwendungen: LaText (verschiedene Strategien zum Zeilenumbruch)
+ET++ und InterViews
+
+Verwandte Muster: Template
+State
+Flyweight
