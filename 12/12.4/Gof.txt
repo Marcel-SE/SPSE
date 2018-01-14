@@ -1,0 +1,19 @@
+Name: Command/Kommando
+Ziel: Anfragen bzw. Methodenaufrufe als eigenständiges Objekt kapseln
+Motivation: Manchmal werden Anfragen an Objekte geschickt ohne zu wissen welche Aktionen ausgeführt werden
+Anwendbarkeit: Oftmals verwendet in GUI-Anwendungen 
+Struktur: (Siehe UML-Diagramm)
+Teilnehmer: 
+Command: Interface
+ConcreteCommand: Implementiert exec() durch Aufruf der entsprechenden Methode
+Client:  erzeugt konkretes Kommando Objekt 
+
+Interaktion: 
+1.Client-Objekt erzeugt konkretes Kommando-Objekt c und trägt darin dessen Receiver r ein. 
+2. Ein Invoker-Objekt i speichert c 
+3. i löst die Ausführung aus durch Aufruf von c.exec(). Falls die Ausfürhung umkehrbar sein soll (UNDO) wird der Zustand vorher gespeichert. 
+4. c ruft r.action() auf.
+Konsequenzen:
+Beispielcode: (Siehe unterer Aufgabenteil)
+Bekannte Anwendungen: OpenOffice Undo/Redo  , Copy&Paste
+Verwandte Muster: Composite

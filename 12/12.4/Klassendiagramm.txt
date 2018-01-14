@@ -1,0 +1,28 @@
+@startuml
+title Command Pattern: Struktur
+skinparam classAttributeIconSize 0
+class Client{
++add(r:Receiver)
+}
+class Receiver{
++action()
+}
+class Invoker{
++invoke()
+}
+class Command{
++exec()
+}
+class ConcreteCommand{
+-state
++exec()
+}
+Note "receiver.action()" as A
+
+Client o->Receiver
+Client ..> ConcreteCommand
+Invoker o--> Command
+ConcreteCommand -|> Command
+ConcreteCommand --> Receiver : receiver
+A -up-> ConcreteCommand
+@enduml 

@@ -1,0 +1,86 @@
+//Gruppenarbeit: mveste2s,ppuet12s,dbloke2s
+public class taschenrechner {
+	static int ergebnis;
+	static int x;
+	static int y;
+	public taschenrechner(int x, int y){
+		this.x = x;
+		this.y = y;
+		ergebnis = x + y;
+	}
+	
+	
+	 static int getX(){
+		return x;
+	}
+	
+	 static int getY(){
+		return y;
+	}
+	 
+	  static int getE(){
+		 return ergebnis;
+	 }
+	 
+	 static void setE(int a){
+		 ergebnis = a;
+	 }
+}
+
+
+public class undo implements Command{
+	
+	receiver r;
+	public undo(receiver r){
+		this.r = r;
+	}
+	
+	public void execute(){
+		r.doundo();
+	}
+}
+
+
+public class redo implements Command {
+
+	
+	receiver r;
+	public redo(receiver r){
+		this.r = r;
+	}
+	
+	public void execute(){
+		r.doredo();
+	}
+	
+}
+
+
+public class receiver {
+
+	
+	int x = taschenrechner.getY();
+	public void doundo(){
+		 int i = taschenrechner.getE();
+		taschenrechner.setE(i - x);
+	}
+	
+	public void doredo(){
+		 int i = taschenrechner.getE();
+		taschenrechner.setE(i + x);
+	}
+}
+
+
+public class invoker {
+
+	private Command command;
+	public void setCommand(Command command){
+		this.command = command;
+	}
+	
+	public void pressButton(){
+		command.execute();
+	}
+	
+}

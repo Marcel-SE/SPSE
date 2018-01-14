@@ -1,0 +1,22 @@
+@startuml
+skinparam sequenceParticipant underline
+hide footbox
+
+participant "r:Receiver" as Receiver
+participant "client:Client" as Client
+participant "c:ConcreteCommand" as cCommand
+participant "i:Invoker" as Invoker
+
+activate Client
+Client -> cCommand: new ConcreteCommand(r)
+activate cCommand
+cCommand -> cCommand: store r in c
+Client -> Invoker: storeCommand(c)
+activate Invoker
+
+Invoker -> cCommand : exec()
+cCommand -> Receiver:action()
+activate Receiver
+
+
+@enduml

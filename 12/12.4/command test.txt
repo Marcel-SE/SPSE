@@ -1,0 +1,33 @@
+
+//Gruppenarbeit: mveste2s,ppuet12s,dbloke2s
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class commandTest {
+
+	
+	taschenrechner tr = new taschenrechner(3,4);
+	invoker iv = new invoker();
+	receiver r = new receiver();
+	Command undo = new undo(r);
+	Command redo = new redo(r);
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@Test
+	public void test() {
+		iv.setCommand(undo);
+		iv.pressButton();
+		assertEquals(3, taschenrechner.getE());
+	}
+	@Test
+	public void test1(){
+		iv.setCommand(redo);
+		iv.pressButton();
+		assertEquals(11,taschenrechner.getE());
+	}
+
+}
