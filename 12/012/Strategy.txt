@@ -1,0 +1,510 @@
+//Partnetarbeit: ppuet12s,mveste2s,dbloke2s
+
+import java.sql.Timestamp;
+
+public class Ticket {
+	
+	public Timestamp einfahren;
+	public Timestamp ausfahren;
+	
+	public Kunde k;
+	
+	public double preis;
+	
+	public long parkdauer;
+	
+	public long getParkdauer(){
+		parkdauer = ausfahren.getTime() - einfahren.getTime();
+		return parkdauer;
+	}
+	
+	public double errechnePreis(){
+		preis = getParkdauer()/1000;
+		return preis;
+	}
+	
+}
+
+
+import java.util.ArrayList;
+
+
+public class Parkhaus {
+
+	
+	public Strategy strat;
+	
+	public ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+	
+	public void setStrategy(Strategy strat){
+		this.strat = strat;
+	}
+	
+	public void sortList(ArrayList<Ticket> list){
+		strat.doOperation(list);
+	}	
+}
+
+import java.sql.Timestamp;
+
+public class Auto {
+
+	
+	public Ticket ticket = new Ticket();
+	
+	public Kunde k;
+	
+	public Auto(String name){
+		k = new Kunde(name);
+	}
+	
+	
+	public void setEinfahren(){
+		ticket.einfahren = new Timestamp(System.currentTimeMillis());
+		ticket.k = this.k;
+	}
+	
+	public void setAusfahren(){
+		ticket.ausfahren = new Timestamp(System.currentTimeMillis());
+		ticket.errechnePreis();
+		ticket.getParkdauer();
+	}
+
+}
+
+public class Kunde {
+
+	public String name;
+	
+	public Kunde(String name){
+		this.name = name;
+	}
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+}
+
+import java.util.ArrayList;
+
+public interface Strategy {
+
+	public ArrayList<Ticket> doOperation(ArrayList<Ticket> list);
+}
+
+import java.util.ArrayList;
+
+public class SortKundeBubble implements Strategy {
+
+	@Override
+	public ArrayList<Ticket> doOperation(ArrayList<Ticket> list) {
+		String tmp;
+		for(int i=1;i<list.size();++i){
+			for(int j=0;j<list.size()-1;++j){
+				if(list.get(j).k.name.compareTo( list.get(j+1).k.name)>0){
+					tmp = list.get(j).k.name;
+					list.get(j).k.name = list.get(j+1).k.name;
+					list.get(j+1).k.name = tmp;
+				}
+			}
+		}
+		return list;
+	}
+}
+
+import java.util.ArrayList;
+
+
+public class SortKundeMerge implements Strategy {
+
+	@Override
+	public ArrayList<Ticket> doOperation(ArrayList<Ticket> list) {
+		
+		ArrayList<Ticket> links = new ArrayList<Ticket>();
+		ArrayList<Ticket> rechts = new ArrayList<Ticket>();
+		int mitte;
+		
+		if(list.size() == 1){
+			return list;
+		}
+		else{
+			mitte = list.size()/2;
+			for(int i=0;i<mitte;++i){
+				links.add(list.get(i));
+			}
+			for(int i=mitte;i<list.size();++i){
+				rechts.add(list.get(i));
+			}
+			
+			links = doOperation(links);
+			rechts = doOperation(rechts);
+			
+			merge(links,rechts,list);
+		}
+		return list;
+	}
+	
+	private void merge(ArrayList<Ticket> links,ArrayList<Ticket> rechts, ArrayList<Ticket> list){
+		int linksIndex = 0;
+		int rechtsIndex = 0;
+		int listIndex = 0;
+		
+		while(linksIndex < links.size() && rechtsIndex < rechts.size()){
+			if( (links.get(linksIndex).k.name).compareTo(rechts.get(rechtsIndex).k.name)<0 ){
+				list.set(listIndex, links.get(linksIndex));
+				linksIndex++;
+			}
+			else{
+				list.set(listIndex, rechts.get(rechtsIndex));
+				rechtsIndex++;
+			}
+			listIndex++;
+		}
+		
+		ArrayList<Ticket> rest;
+		int restIndex;
+		if(linksIndex >= links.size()){
+			rest = rechts;
+			restIndex = rechtsIndex;
+		}
+		else{
+			rest = links;
+			restIndex = linksIndex;
+		}
+		
+		for(int i=restIndex;i<rest.size();++i){
+			list.set(listIndex, rest.get(i));
+			listIndex++;
+		}
+	}
+}
+
+public class SortKundeQuick implements Strategy {
+
+	 private static ArrayList<Ticket> numbers;
+	 private static int number;
+	@Override
+	public ArrayList<Ticket> doOperation(ArrayList<Ticket> values) {
+	    if (values ==null || values.size()==0){
+	      return null;
+	    }
+	    numbers = values;
+	    number = values.size();
+	    quicksort(0, number - 1);
+	    
+	    return new ArrayList<Ticket>(numbers); 
+	}
+	
+	private static void quicksort(int low, int high) {
+	    int i = low, j = high;
+	    Ticket pivot = numbers.get(low + (high-low)/2);
+
+	    while (i <= j) {
+	      while (numbers.get(i).k.name.compareTo(pivot.k.name)<0) {
+	        i++;
+	      }
+	      while (numbers.get(j).k.name.compareTo(pivot.k.name)> 0) {
+	        j--;
+	      }
+	      if (i <= j) {
+	        exchange(i, j);
+	        i++;
+	        j--;
+	      }
+	    }
+	    if (low < j)
+	      quicksort(low, j);
+	    if (i < high)
+	      quicksort(i, high);
+	  }
+	
+	 private static void exchange(int i, int j) {
+		    Ticket temp = numbers.get(i);
+
+		    numbers.set(i, numbers.get(j));
+		    numbers.set(j, temp);
+		  }
+	
+	
+	
+}
+
+import java.util.ArrayList;
+
+public class SortParkdauerBubble implements Strategy{
+
+	@Override
+	public ArrayList<Ticket> doOperation(ArrayList<Ticket> list) {
+		long tmp;
+		for(int i=1;i<list.size();++i){
+			for(int j=0;j<list.size()-1;++j){
+				if(list.get(j).parkdauer > list.get(j+1).parkdauer){
+					tmp = list.get(j).parkdauer;
+					list.get(j).parkdauer = list.get(j+1).parkdauer;
+					list.get(j+1).parkdauer = tmp;
+				}
+			}
+		}
+		return list;
+	}
+	
+}
+
+import java.util.ArrayList;
+
+public class SortPreisQuick implements Strategy {
+
+	 private static ArrayList<Ticket> numbers;
+	 private static int number;
+	@Override
+	public ArrayList<Ticket> doOperation(ArrayList<Ticket> values) {
+	    if (values ==null || values.size()==0){
+	      return null;
+	    }
+	    numbers = values;
+	    number = values.size();
+	    quicksort(0, number - 1);
+	    
+	    return new ArrayList<Ticket>(numbers); 
+	}
+	
+	private static void quicksort(int low, int high) {
+	    int i = low, j = high;
+	    Ticket pivot = numbers.get(low + (high-low)/2);
+
+	    while (i <= j) {
+	      while (numbers.get(i).preis < pivot.preis) {
+	        i++;
+	      }
+	      while (numbers.get(j).preis > pivot.preis) {
+	        j--;
+	      }
+	      if (i <= j) {
+	        exchange(i, j);
+	        i++;
+	        j--;
+	      }
+	    }
+	    if (low < j)
+	      quicksort(low, j);
+	    if (i < high)
+	      quicksort(i, high);
+	  }
+	
+	 private static void exchange(int i, int j) {
+		    Ticket temp = numbers.get(i);
+
+		    numbers.set(i, numbers.get(j));
+		    numbers.set(j, temp);
+		  }
+	
+	
+	
+}
+
+import java.util.ArrayList;
+
+public class SortPreisMerge implements Strategy {
+
+	@Override
+	public ArrayList<Ticket> doOperation(ArrayList<Ticket> list) {
+		
+		ArrayList<Ticket> links = new ArrayList<Ticket>();
+		ArrayList<Ticket> rechts = new ArrayList<Ticket>();
+		int mitte;
+		
+		if(list.size() == 1){
+			return list;
+		}
+		else{
+			mitte = list.size()/2;
+			for(int i=0;i<mitte;++i){
+				links.add(list.get(i));
+			}
+			for(int i=mitte;i<list.size();++i){
+				rechts.add(list.get(i));
+			}
+			
+			links = doOperation(links);
+			rechts = doOperation(rechts);
+			
+			merge(links,rechts,list);
+		}
+		return list;
+	}
+	
+	private void merge(ArrayList<Ticket> links,ArrayList<Ticket> rechts, ArrayList<Ticket> list){
+		int linksIndex = 0;
+		int rechtsIndex = 0;
+		int listIndex = 0;
+		
+		while(linksIndex < links.size() && rechtsIndex < rechts.size()){
+			if(links.get(linksIndex).preis < rechts.get(rechtsIndex).preis){
+				list.set(listIndex, links.get(linksIndex));
+				linksIndex++;
+			}
+			else{
+				list.set(listIndex, rechts.get(rechtsIndex));
+				rechtsIndex++;
+			}
+			listIndex++;
+		}
+		
+		ArrayList<Ticket> rest;
+		int restIndex;
+		if(linksIndex >= links.size()){
+			rest = rechts;
+			restIndex = rechtsIndex;
+		}
+		else{
+			rest = links;
+			restIndex = linksIndex;
+		}
+		
+		for(int i=restIndex;i<rest.size();++i){
+			list.set(listIndex, rest.get(i));
+			listIndex++;
+		}
+	}
+}
+
+import java.util.ArrayList;
+
+public class SortPreisBubble implements Strategy {
+
+	@Override
+	public ArrayList<Ticket> doOperation(ArrayList<Ticket> list) {
+		double tmp;
+		for(int i=1;i<list.size();++i){
+			for(int j=0;j<list.size()-1;++j){
+				if(list.get(j).preis > list.get(j+1).preis){
+					tmp = list.get(j).preis;
+					list.get(j).preis = list.get(j+1).preis;
+					list.get(j+1).preis = tmp;
+				}
+			}
+		}
+		return list;
+	}
+
+}
+
+import java.util.ArrayList;
+
+public class SortParkdauerQuick implements Strategy {
+
+	 private static ArrayList<Ticket> numbers;
+	 private static int number;
+	@Override
+	public ArrayList<Ticket> doOperation(ArrayList<Ticket> values) {
+	    if (values ==null || values.size()==0){
+	      return null;
+	    }
+	    numbers = values;
+	    number = values.size();
+	    quicksort(0, number - 1);
+	    
+	    return new ArrayList<Ticket>(numbers); 
+	}
+	
+	private static void quicksort(int low, int high) {
+	    int i = low, j = high;
+	    Ticket pivot = numbers.get(low + (high-low)/2);
+
+	    while (i <= j) {
+	      while (numbers.get(i).parkdauer < pivot.parkdauer) {
+	        i++;
+	      }
+	      while (numbers.get(j).parkdauer > pivot.parkdauer) {
+	        j--;
+	      }
+	      if (i <= j) {
+	        exchange(i, j);
+	        i++;
+	        j--;
+	      }
+	    }
+	    if (low < j)
+	      quicksort(low, j);
+	    if (i < high)
+	      quicksort(i, high);
+	  }
+	
+	 private static void exchange(int i, int j) {
+		    Ticket temp = numbers.get(i);
+
+		    numbers.set(i, numbers.get(j));
+		    numbers.set(j, temp);
+		  }
+	
+	
+	
+}
+
+import java.util.ArrayList;
+
+public class SortParkdauerMerge implements Strategy {
+
+	@Override
+	public ArrayList<Ticket> doOperation(ArrayList<Ticket> list) {
+		
+		ArrayList<Ticket> links = new ArrayList<Ticket>();
+		ArrayList<Ticket> rechts = new ArrayList<Ticket>();
+		int mitte;
+		
+		if(list.size() == 1){
+			return list;
+		}
+		else{
+			mitte = list.size()/2;
+			for(int i=0;i<mitte;++i){
+				links.add(list.get(i));
+			}
+			for(int i=mitte;i<list.size();++i){
+				rechts.add(list.get(i));
+			}
+			
+			links = doOperation(links);
+			rechts = doOperation(rechts);
+			
+			merge(links,rechts,list);
+		}
+		return list;
+	}
+	
+	private void merge(ArrayList<Ticket> links,ArrayList<Ticket> rechts, ArrayList<Ticket> list){
+		int linksIndex = 0;
+		int rechtsIndex = 0;
+		int listIndex = 0;
+		
+		while(linksIndex < links.size() && rechtsIndex < rechts.size()){
+			if(links.get(linksIndex).parkdauer < rechts.get(rechtsIndex).parkdauer){
+				list.set(listIndex, links.get(linksIndex));
+				linksIndex++;
+			}
+			else{
+				list.set(listIndex, rechts.get(rechtsIndex));
+				rechtsIndex++;
+			}
+			listIndex++;
+		}
+		
+		ArrayList<Ticket> rest;
+		int restIndex;
+		if(linksIndex >= links.size()){
+			rest = rechts;
+			restIndex = rechtsIndex;
+		}
+		else{
+			rest = links;
+			restIndex = linksIndex;
+		}
+		
+		for(int i=restIndex;i<rest.size();++i){
+			list.set(listIndex, rest.get(i));
+			listIndex++;
+		}
+	}
+}
+

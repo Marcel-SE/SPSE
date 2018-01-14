@@ -1,0 +1,92 @@
+//Partnerarbeit: ppuet12s,mveste2s,dbloke2s
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class StrategyTest {
+
+	Parkhaus p;
+	
+	@Before
+	public void setUp(){
+		p = new Parkhaus();
+		p.tickets.add(new Ticket());
+		p.tickets.get(0).preis = 5;
+		p.tickets.get(0).parkdauer = 12L;
+		p.tickets.get(0).k = new Kunde("Jan");
+		p.tickets.add(new Ticket());
+		p.tickets.get(1).preis = 10;
+		p.tickets.get(1).parkdauer = 26L;
+		p.tickets.get(1).k = new Kunde("Sabine");
+		p.tickets.add(new Ticket());
+		p.tickets.get(2).preis = 3;
+		p.tickets.get(2).parkdauer = 7L;
+		p.tickets.get(2).k = new Kunde ("Chris");
+	}
+	
+	@Test
+	public void testStrategySortPreisBubble() {
+		p.setStrategy(new SortPreisBubble());
+		p.sortList(p.tickets);
+		assertEquals(3.0, p.tickets.get(0).preis,0);
+	}
+	
+	@Test
+	public void testStrategySortPreisMerge(){
+		p.setStrategy(new SortPreisMerge());
+		p.sortList(p.tickets);
+		assertEquals(3.0, p.tickets.get(0).preis,0);
+	}
+	
+	@Test
+	public void testStrategySortPreisQuick(){
+		p.setStrategy(new SortPreisQuick());
+		p.sortList(p.tickets);
+		assertEquals(3.0, p.tickets.get(0).preis,0);
+	}
+	
+	@Test
+	public void testStrategySortParkdauerQuick(){
+		p.setStrategy(new SortParkdauerQuick());
+		p.sortList(p.tickets);
+		assertEquals(7.0, p.tickets.get(0).parkdauer,0);
+	}
+	
+	@Test
+	public void testStrategySortParkdauerMerge(){
+		p.setStrategy(new SortParkdauerMerge());
+		p.sortList(p.tickets);
+		assertEquals(7.0, p.tickets.get(0).parkdauer,0);
+	}
+	
+	@Test
+	public void testStrategySortParkdauerBubble(){
+		p.setStrategy(new SortParkdauerBubble());
+		p.sortList(p.tickets);
+		assertEquals(7.0, p.tickets.get(0).parkdauer,0);
+	}
+	
+	@Test
+	public void testStrategySortKundeBubble(){
+		p.setStrategy(new SortKundeBubble());
+		p.sortList(p.tickets);
+		assertEquals("Chris",p.tickets.get(0).k.name);
+	}
+	
+	@Test
+	public void testStrategySortKundeQuick(){
+		p.setStrategy(new SortKundeQuick());
+		p.sortList(p.tickets);
+		assertEquals("Chris",p.tickets.get(0).k.name);
+	}
+	
+	@Test
+	public void testStrategySortKundeMerge(){
+		p.setStrategy(new SortKundeMerge());
+		p.sortList(p.tickets);
+		assertEquals("Chris",p.tickets.get(0).k.name);
+	}
+
+}
