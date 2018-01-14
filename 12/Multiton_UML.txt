@@ -1,0 +1,7 @@
+@startuml
+title Multiton Pattern
+skinparam classAttributeIconSize 0
+Multiton : {static} - instances: Map<Key,Multiton>
+Multiton : - Multiton()
+Multiton : {static} + getInstance(): Multiton
+@enduml

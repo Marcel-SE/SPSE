@@ -1,0 +1,47 @@
+Name:
+	Mehrfache Einzelstücke (Multiton)
+Ziel:
+	Limitierung der möglichen Instanzen einer Klasse auf eine pro Schlüssel
+Synonyme:
+	"Registry of Singletons"
+Motivation:
+	Wenn nur eine kontrollierte Menge von Instanzen einer Klasse ermöglicht werden soll, die ansonsten ähnliche Eigenschaften wie beim Singleton haben soll.
+Anwendbarkeit:
+	-wenn die Erstellung von Objekten genau kontrolliert werden soll
+	-wenn die Eigenschaften eines Singleton für mehrere ähnliche Objekte gewünscht sind
+Struktur:
+	@startuml
+	title Multiton Pattern
+	skinparam classAttributeIconSize 0
+	Multiton : {static} - instances: Map<Key,Multiton>
+	Multiton : - Multiton()
+	Multiton : {static} + getInstance(): Multiton
+	@enduml
+Teilnehmer:
+	Multiton
+Interaktion:
+	Nutzer greifen ausschließlich über die statische Methode getInstance() und die öffentlichen Objektmethoden zu.
+Konsequenzen:
+	1. Gleiche Vorteile wie bei Singleton
+	2. Eventuelle Speicherlecks bei Garbage Collection
+Implementierungsvarianten:
+	1. Lazy Instantiation "on demand"
+	2. Finale Initialisierung
+Beispiel:
+	public class Multiton {
+    private static final Map<Object, Multiton> instances = new HashMap<Object, Multiton>();
+    private Multiton() {
+    }
+    public static Multiton getInstance(Object key) {
+        synchronized (instances) {
+            Multiton instance = instances.get(key);
+            if (instance == null) {
+                instance = new FooMultiton();
+                instances.put(key, instance);
+            }
+            return instance;
+        }
+    }
+}
+Verwandte Muster:
+	Singleton

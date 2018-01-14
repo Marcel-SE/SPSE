@@ -1,0 +1,6 @@
+1. Enum ermöglicht keine "lazy instantiation".
+2. Enum ist weniger flexibel als Multiton.
+3. Enum erlaubt nicht die Konstruktion einer komplexen Datenstruktur.
+4. Multiton läst sich besser nach eigenen Vorstellungen kontrollieren.
+5. Enum ist einfacher und für viele Szenarien völlig ausreichend.
+6. Enum ist potentiell weniger Fehleranfällig in der Handhabung.
